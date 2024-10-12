@@ -6,11 +6,11 @@ WORKDIR /app
 
 # Copy the requirements file
 COPY requirement.txt /app
-RUN apt install python3-pip
+
+RUN apt-get update && apt-get install -y python3-pip
 # Install the project dependencies
 RUN pip install -r requirement.txt
 
-RUN apt-get update && apt-get install -y python3-pip
 # Copy the application code into the container
 COPY . .
 
