@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copy the requirements file
 COPY requirement.txt /app
-
+RUN apt install python3-pip
 # Install the project dependencies
 RUN pip install -r requirement.txt
 
