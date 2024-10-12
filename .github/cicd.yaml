@@ -1,0 +1,29 @@
+# using code build let write the cicd
+version: 0.2
+
+env:
+  variables:
+    DOCKER_USERNAME: ${DOCKER_USERNAME}
+    DOCKER_PASSWORD: ${DOCKER_PASSWORD}
+phases:
+  install:
+    runtime-versions:
+      python: 3.7
+    commands:
+      - echo "installing docker"
+      - sudo apt-get update
+      - sudo apt-get install -y docker.io
+  build:
+    commands:
+      - echo "building docker image"
+      - echo "code_resolved_build=${CODEBUILD_RESOLVED_SOURCE_VERSION}"
+      - docker build -t sheziidowu/flask:latest .
+     
+      - docker tag sheziidowu/flask:latest sheziidowu/flask:${CODEBUILD_RESOLVED_SOURCE_VERSION}
+  post_build:
+    commands:
+      - echo "pushing docker image"
+      - docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+      - docker push sheziidowu/flask:${CODEBUILD_RESOLVED_SOURCE_VERSION}
+      - docker push sheziidowu/flask:${CODEBUILD_RESOLVED_SOURCE_VERSION}
+ 
